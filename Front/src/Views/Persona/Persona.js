@@ -120,12 +120,13 @@ const handleInputChangeRut = (event) => {
         CiudadCodigo : values.ciudadId,
         ComunaCodigo:values.comunaId,
          Direccion:values.direccion,
-         Telefono : values.telefono,
+         Telefono : parseInt(values.telefono),
          Observaciones :values.observaciones}
-        alert(JSON.stringify(body))
+      
 
         if(accion=="Guardar")
         {
+          delete body.Id
             Save(body)
         }
 

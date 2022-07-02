@@ -235,8 +235,8 @@ return (
             margin="normal"
             required
             fullWidth
-            name="observacion"
-            label="Observacion"
+            name="observaciones"
+            label="observaciones"
             id="observacion"
             autoComplete="Observación"
             multiline
