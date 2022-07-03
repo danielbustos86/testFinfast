@@ -27,7 +27,8 @@ import { Card,CardHeader,CardContent, Dialog,
     DialogContentText} from '@mui/material';
 import ListaPersonas from './ListaPersonas';
 import CreateUpdatePersona from './CreateUpdatePersona';
-import {  validate, clean, format, getCheckDigit } from 'rut.js'
+import {  validate, clean, format, getCheckDigit } from 'rut.js';
+import {ValidaRequest} from './ValidateRequest.js';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -63,7 +64,7 @@ export default function Persona() {
       apellidoMat:"",
       email : "",
       sexo : 1,
-      fechaNac: "1980-01-01",
+      fechaNac: "1900-01-01",
       regionId : 0,
       ciudadId : 0,
       comunaId : 0,
@@ -81,15 +82,7 @@ const handleInputChangeRut = (event) => {
     setValues({ ...values, [name]: format(value) });
 };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    alert(data.get('regionsel'))
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  
 
 
   const SaveorEdit = () =>{
@@ -104,6 +97,19 @@ const handleInputChangeRut = (event) => {
         });
         return
     }
+    let valida = ValidaRequest(values)
+
+    if(valida!="")
+    {
+      Swal.fire({
+        title: "Debe ingresar los siguientes campos:",
+        text: valida,
+        icon: "warning",
+      target: document.getElementById("dialogFormularioMantenedor")
+    });
+    return
+    }
+
     let largorut =  clean(values.rut).length
     let body = {
         Id : values.id,
@@ -309,7 +315,7 @@ const GetPersonas = async()=>{
         apellidoMat:"",
         email : "",
         sexo : 1,
-        fechaNac: "1980-01-01",
+        fechaNac: "1900-01-01",
         regionId : 0,
         ciudadId : 0,
         comunaId : 0,
@@ -322,7 +328,7 @@ const GetPersonas = async()=>{
     setCiudadSel({codigo:0,nombre:"Seleccione"})
     setComunaSel({codigo:0,nombre:"Seleccione"})
   }
-  const PreEliminar = async () => {
+  const PreEliminar = async (id) => {
 
     const confirmaEliminar = await Swal.fire({
         title: "Advertencia",
@@ -337,14 +343,14 @@ const GetPersonas = async()=>{
     });
     if (confirmaEliminar.value === true) {
 
-        Eliminar()
+        Eliminar(id)
 
     }
     return;
 }
-const Eliminar = ()=>{
+const Eliminar = (id)=>{
     apiClient
-    .delete(`Personas/${values.id}`)
+    .delete(`Personas/${id}`)
     .then(
         (response) => {
 
@@ -434,7 +440,7 @@ const Eliminar = ()=>{
           comunaSel = {comunaSel}
           setComunaSel ={setComunaSel}
           SaveorEdit = {SaveorEdit}
-          handleSubmit = {handleSubmit}
+  
           sexos ={sexos}
           />
           </DialogContentText>

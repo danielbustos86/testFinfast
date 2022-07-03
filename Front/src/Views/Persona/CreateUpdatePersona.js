@@ -42,7 +42,6 @@ comunas,
 comunaSel,
 setComunaSel,
 SaveorEdit,
-handleSubmit,
 sexos
 })=>{
 

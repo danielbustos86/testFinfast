@@ -134,7 +134,7 @@ PreEliminar}) => {
                                                         
                                                         {
                                                             Seleccionado(item)
-                                                            PreEliminar()
+                                                            PreEliminar(item.id)
                                                         }
                                                     }
                                                     >
