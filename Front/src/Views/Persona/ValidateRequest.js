@@ -22,7 +22,14 @@ export const ValidaRequest = (values)=>{
     if(values.email=="")
     {
         error = error + '-'+'Email'
+    }else{
+       let valido= /\S+@\S+/.test(values.email)
+       if(!valido)
+       {
+        error = error + '-'+'Formato Email no valido'
+       }
     }
+   
     if(values.fechaNac =="1900-01-01")
     {
         error = error + '-'+'Fecha Nacimiento'
